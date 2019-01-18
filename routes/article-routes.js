@@ -25,5 +25,36 @@ module.exports = function (app) {
         });
         res.send("scrape complete")
     });
+    app.get("/articles", function (req, res) {
+        db.Article.find({}).then(function (dbArticle) {
+
+            res.json(dbArticle);
+        }).catch(function (err) {
+
+            res.json(err);
+        });
+    });
+
+    app.get("/articles/:id", function (req, res) {
+
+        db.Article.findOne({ _id: req.params.id }).populate("comment").then(function (dbArticle) {
+            res.json(dbArticle);
+        }).catch(function (err) {
+
+            res.json(err);
+        });
+    });
+    var comment = {
+        title: "review",
+        body: "good one"
+    }
+    app.get("/comments", function (req, res) {
+        db.Comment.create(comment).then(
+            res.json(comment)
+        ).catch(function (err) {
+
+            res.json(err);
+        });
+    })
 };
 
