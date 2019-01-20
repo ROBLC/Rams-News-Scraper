@@ -14,6 +14,8 @@ module.exports = function (app) {
                     result.title = $(this).find(".d3-o-media-object").attr("title");
                     result.link = ("https://www.therams.com" + $(this).find(".d3-o-media-object").attr("href"));
                     result.summary = $(this).find(".d3-o-media-object__summary").text().trim();
+                    result.date = $(this).find(".d3-o-media-object__date").text().trim();
+
 
 
                 }
@@ -36,25 +38,40 @@ module.exports = function (app) {
     });
 
     app.get("/articles/:id", function (req, res) {
-
-        db.Article.findOne({ _id: req.params.id }).populate("comment").then(function (dbArticle) {
+        db.Article.findOne({ _id: req.params.id }).populate("comments")
+            .then(function (dbArticle) {
+                res.json(dbArticle);
+            }).catch(function (err) {
+                res.json(err);
+            });
+    });
+    app.post("/comments", function (req, res) {
+        db.Comment.create({ body: req.body.body }).then(function (dbComment) {
+            return db.Article.findOneAndUpdate({ _id: req.body._id }, { $push: { comments: dbComment._id } }, { new: true });
+        }).then(function (dbArticle) {
             res.json(dbArticle);
         }).catch(function (err) {
-
             res.json(err);
         });
-    });
-    var comment = {
-        title: "review",
-        body: "good one"
-    }
+    })
+
+    app.delete("/comments/:id", function (req, res) {
+        db.Comment.findByIdAndRemove(req.params.id).then(function (dbComment) {
+            res.json(dbComment)
+        }).catch(function (err) {
+            res.json(err);
+        });
+    })
+
+
     app.get("/comments", function (req, res) {
-        db.Comment.create(comment).then(
+        db.Comment.find(comment).then(
             res.json(comment)
         ).catch(function (err) {
 
             res.json(err);
         });
-    })
+    });
+
 };
 

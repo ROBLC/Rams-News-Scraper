@@ -1,0 +1,32 @@
+body {
+    background-color: #112B6F; 
+}
+
+.jumbotron {
+    background-image: url(https://static.clubs.nfl.com/image/private/t_photogallery/f_auto/rams/ljyb4zdag6mesp7j6eih.jpg);
+    background-size: contain;
+    color: #ffffff;
+    font-family: Arial, Helvetica, sans-serif
+}
+.navbar {
+    background-color: #112B6F;
+    color: #E3CF31;
+}
+
+.btn {
+    background-color: #E3CF31;
+    border-color: #E3CF31;
+    color: black;
+}
+
+a {
+    color: #112B6F; 
+}
+
+.btn :hover {
+    color: #112B6F; 
+}
+
+.card {
+    font-family: Arial, Helvetica, sans-serif
+}
