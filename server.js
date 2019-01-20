@@ -20,7 +20,7 @@ require("./routes/html-routes.js")(app);
 require("./routes/article-routes")(app);
 
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/ramsNews"
-mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
+mongoose.connect(MONGODB_URI);
 
 
 
