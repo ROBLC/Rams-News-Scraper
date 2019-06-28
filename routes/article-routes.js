@@ -8,20 +8,23 @@ module.exports = function (app) {
 
             const $ = cheerio.load(response.data)
 
-            $(".d3-l-col__col-4 ").each(function (i, element) {
+            $(".d3-l-col__col-4").find(".d3-o-media-object__body").each(function (i, element) {
                 const result = {};
-                if ($(this).find(".d3-o-media-object").attr("title") && $(this).find(".d3-o-media-object").attr("href")) {
-                    result.title = $(this).find(".d3-o-media-object").attr("title");
-                    result.link = ("https://www.therams.com" + $(this).find(".d3-o-media-object").attr("href"));
-                    result.summary = $(this).find(".d3-o-media-object__summary").text().trim();
-                    result.date = $(this).find(".d3-o-media-object__date").text().trim();
+                //if ($(this).find(".d3-o-media-object").attr("title") && $(this).find(".d3-o-media-object").attr("href")) {
+
+                result.title = $(this).find(".d3-o-media-object__title").text().trim();
+                result.link = ("https://www.therams.com" + $(this).find("a").attr("href"));
+                result.summary = $(this).find(".d3-o-media-object__summary").text().trim();
+                result.date = $(this).find(".d3-o-media-object__date").text().trim();
 
 
 
-                }
+
+
                 db.Article.create(result).then(dbArticle => {
                     console.log(dbArticle);
                 }).catch(err => console.log(err));
+
             })
 
         });
